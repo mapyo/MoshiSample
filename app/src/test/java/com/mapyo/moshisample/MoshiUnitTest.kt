@@ -23,7 +23,7 @@ class MoshiUnitTest {
 
         val moshiCatJson = Moshi.Builder().build()
                 .adapter(Animal.Cat::class.java).toJson(cat)
-        Assertions.assertThat(moshiCatJson).isEqualTo("{\"name\":\"cat\"}")
+        Assertions.assertThat(moshiCatJson).isEqualTo("""{"name":"cat"}""")
 
         val moshiKotlinCatJson = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                 .adapter(Animal.Cat::class.java).toJson(cat)
@@ -32,14 +32,14 @@ class MoshiUnitTest {
 
     @Test
     fun deserialize() {
-        val json = "{\"name\":\"cat\"}"
+        val json = """{"name":"cat"}"""
 
         val moshiCat = Moshi.Builder().build()
-                .adapter(Animal.Cat::class.java).fromJson(json)
-        Assertions.assertThat(moshiCat!!.name).isEqualTo("cat")
+                .adapter(Animal.Cat::class.java).fromJson(json)!!
+        Assertions.assertThat(moshiCat.name).isEqualTo("cat")
 
         val moshiKotlinCat = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                .adapter(Animal.Cat::class.java).fromJson(json)
-        Assertions.assertThat(moshiKotlinCat!!.name).isEqualTo("cat")
+                .adapter(Animal.Cat::class.java).fromJson(json)!!
+        Assertions.assertThat(moshiKotlinCat.name).isEqualTo("cat")
     }
 }
